@@ -1,11 +1,7 @@
 pipeline{
     agent any
     stages {
-        stage("main branch script ") {
-            when {
-                branch "main"
-		    // Build only when main branch  
-            }
+        stage("Stage 1") {
             steps {
 	             script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -14,40 +10,17 @@ pipeline{
                 }
             }
         }
-        stage("develop branch script"){
-            when {
-                branch "develop"
-              // scan all the folders and check if there is change in python script       
-            }
+        stage("Stage 2"){
             steps {
-	                      script {
+	              script {
                        def pom = readMavenPom file: 'pom.xml'
                        env.version = pom.version
                        echo "develop branch version is ${env.version}"
                 }
 
-		 }          
+	    }          
         }
-	stage("bug-fix branch script"){
-            when {
-                branch "bug-fix"
-              // scan all the folders and check if there is change in python script
-            }
-            steps {
-                              script {
-                       def pom = readMavenPom file: 'pom.xml'
-                       env.version = pom.version
-                       echo "develop branch version is ${env.version}"
-                }
-
-                 }
-        }
-
-	stage("feature branch script"){
-            when {
-                branch "feature-*"
-  // builds on when branch starts with feature-  
-            }
+	stage("Stage 3"){
             steps {
 	           script {
                        def pom = readMavenPom file: 'pom.xml'
