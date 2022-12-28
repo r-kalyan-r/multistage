@@ -2,6 +2,9 @@ pipeline{
     agent any
     stages {
         stage("Stage 1") {
+	    when {
+              buildingTag()
+	    }
             steps {
 	             script {
                        def pom = readMavenPom file: 'pom.xml'
