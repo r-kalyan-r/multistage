@@ -1,10 +1,10 @@
 pipeline{
     agent any
+    parameters {
+              gitParameter defaultValue: 'origin/main', name: 'SBRANCH', type: 'PT_BRANCH_TAG',quickFilterEnabled:true ,description: 'Select Branch'
+	      }
     stages {
-        stage("Main branch version") {
-	when {
-            branch "main"  
-	}
+        stage("Stage 1") {
             steps {
 	             script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -13,10 +13,7 @@ pipeline{
                 }
             }
         }
-        stage("Develop branch verson"){
-	when {
-            branch "develop"  
-	}
+        stage("Stage 2"){
             steps {
 	              script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -26,10 +23,7 @@ pipeline{
 
 	    }          
         }
-	stage("Feature branch"){
-	 when {
-           branch "feature-*"
-	 }
+	stage("Stage 3"){
             steps {
 	           script {
                        def pom = readMavenPom file: 'pom.xml'
