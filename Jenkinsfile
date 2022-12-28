@@ -1,7 +1,10 @@
 pipeline{
     agent any
     stages {
-        stage("Stage 1") {
+        stage("Main branch version") {
+	when {
+            branch "main"  
+	}
             steps {
 	             script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -10,7 +13,10 @@ pipeline{
                 }
             }
         }
-        stage("Stage 2"){
+        stage("Develop branch verson"){
+	when {
+            branch "develop"  
+	}
             steps {
 	              script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -20,7 +26,10 @@ pipeline{
 
 	    }          
         }
-	stage("Stage 3"){
+	stage("Feature branch"){
+	 when {
+           branch "feature-*"
+	 }
             steps {
 	           script {
                        def pom = readMavenPom file: 'pom.xml'
