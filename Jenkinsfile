@@ -1,5 +1,13 @@
 pipeline{
     agent any
+    parameters {
+              gitParameter defaultValue: 'origin/main', name: 'SBRANCH', type: 'PT_BRANCH_TAG',quickFilterEnabled:true ,description: 'Select Branch'
+	      }
+    stage('Checkout') {
+          steps {
+            checkout scm: [$class: 'GitSCM', userRemoteConfigs: [[url: 'https://github.com/r-kalyan-r/multistage.git',credentialsId: 'git-token']], branches: [[name: '${SBRANCH}']]], poll: false
+          }
+        }
     stages {
         stage("Stage 1") {
 	    when {
