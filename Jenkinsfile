@@ -1,10 +1,13 @@
 pipeline{
     agent any
-    parameters {
-              gitParameter defaultValue: 'origin/main', name: 'SBRANCH', type: 'PT_BRANCH_TAG',quickFilterEnabled:true ,description: 'Select Branch'
-	      }
+    environment {
+      ENV = "prod"
+    }
     stages {
         stage("Stage 1") {
+	when {
+           environment ( name: "ENV", value: "prod")  
+	}
             steps {
 	             script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -14,6 +17,9 @@ pipeline{
             }
         }
         stage("Stage 2"){
+	    when {
+              environment(name: "system", value: "QA")
+	    }
             steps {
 	              script {
                        def pom = readMavenPom file: 'pom.xml'
@@ -24,6 +30,9 @@ pipeline{
 	    }          
         }
 	stage("Stage 3"){
+	    when {
+             environment(name: "ENV", value: "DEV")
+	    }
             steps {
 	           script {
                        def pom = readMavenPom file: 'pom.xml'
