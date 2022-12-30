@@ -13,6 +13,7 @@ pipeline{
                        def pom = readMavenPom file: 'pom.xml'
                        env.version = pom.version
                        echo "main branch version is ${env.version}"
+		       sh """ sleep 30 """
                 }
             }
         }
